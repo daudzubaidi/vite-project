@@ -60,10 +60,3 @@ jobs:
           body: |
             This PR updates the package.json version to ${{ steps.get_version.outputs.version }} as per the release-please action.
           base: main
-
-      - name: Auto-merge PR
-        if: steps.create-pull-request.outputs.pull-request-number
-        uses: peter-evans/automatically-merge-pull-request@v2
-        with:
-          pull-request-number: ${{ steps.create-pull-request.outputs.pull-request-number }}
-          merge-method: squash
