@@ -1,0 +1,52 @@
+name: release-please
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Release Please
+        uses: google-github-actions/release-please-action@v4
+        with:
+          release-type: simple
+
+      - name: Get the new version
+        id: get_version
+        run: echo "::set-output name=version::$(jq -r '.version' ${{ github.workspace }}/release-please-manifest.json)"
+
+      - name: Update package.json
+        run: |
+          sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"${{ steps.get_version.outputs.version }}\"/" package.json
+
+      - name: Check changes
+        run: |
+          git status
+
+      - name: Commit changes
+        run: |
+          git config --global user.email "daudzubaidi"
+          git config --global user.name "daud.java@gmail.com"
+          git checkout -b release-please-branch  # Create a new branch for the changes
+          git commit -am "chore: update version to ${{ steps.get_version.outputs.version }}"
+
+      - name: Push changes
+        run: git push origin release-please-branch
