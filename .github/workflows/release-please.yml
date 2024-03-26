@@ -36,7 +36,7 @@ jobs:
       - name: Update package.json
         run: |
           sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"${{ steps.get_version.outputs.version }}\"/" package.json
-
+          
       - name: Check changes
         run: |
           git status
@@ -45,8 +45,7 @@ jobs:
         run: |
           git config --global user.email "daudzubaidi"
           git config --global user.name "daud.java@gmail.com"
-          git checkout -b release-please-branch  # Create a new branch for the changes
           git commit -am "chore: update version to ${{ steps.get_version.outputs.version }}"
 
       - name: Push changes
-        run: git push origin release-please-branch
+        run: git push origin HEAD
