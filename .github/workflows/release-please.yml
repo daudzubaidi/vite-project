@@ -26,7 +26,7 @@ jobs:
       - name: Run Release Please
         uses: google-github-actions/release-please-action@v4
         with:
-          token: ${{ github.token }}
+          token: ${{ secrets.MY_RELEASE_PLEASE_TOKEN }}
           release-type: simple
 
       - name: Get the new version
