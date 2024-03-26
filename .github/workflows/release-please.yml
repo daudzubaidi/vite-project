@@ -12,53 +12,7 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-
-      - name: Install dependencies
-        run: npm install
-
       - name: Run Release Please
         uses: google-github-actions/release-please-action@v4
         with:
-          token: ${{ secrets.MY_RELEASE_PLEASE_TOKEN }}
           release-type: simple
-
-      - name: Get the new version
-        id: get_version
-        run: echo "::set-output name=version::$(jq -r '.version' ${{ github.workspace }}/release-please-manifest.json)"
-
-      - name: Update package.json
-        run: |
-          NEW_VERSION=${{ steps.get_version.outputs.version }}
-          node -e "const fs = require('fs'); const package = JSON.parse(fs.readFileSync('package.json', 'utf8')); package.version = '$NEW_VERSION'; fs.writeFileSync('package.json', JSON.stringify(package, null, 2));"
-
-      - name: Check changes
-        run: |
-          git status
-
-      - name: Commit changes
-        run: |
-          git config --global user.email "daudzubaidi"
-          git config --global user.name "daud.java@gmail.com"
-          git checkout -b release-please-branch
-          git commit -am "chore: update version to ${{ steps.get_version.outputs.version }}"
-
-      - name: Push changes
-        run: git push origin release-please-branch
-
-      - name: Create Pull Request
-        id: create-pull-request
-        uses: peter-evans/create-pull-request@v4
-        with:
-          commit-message: "chore: update version to ${{ steps.get_version.outputs.version }}"
-          branch: release-please-branch
-          title: "chore: update version to ${{ steps.get_version.outputs.version }}"
-          body: |
-            This PR updates the package.json version to ${{ steps.get_version.outputs.version }} as per the release-please action.
-          base: main
