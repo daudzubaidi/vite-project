@@ -25,15 +25,16 @@ jobs:
 
       - name: Set up token
         env:
-          RELEASE_PLEASE_TOKEN: ${{ github.RELEASE_PLEASE_TOKEN }}
+          RELEASE_PLEASE_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN }}
         run: |
           git config --global user.email "daud.java@gmail.com"
           git config --global user.name "daudzubaidi"
 
-      - uses: google-github-actions/release-please-action@v4
+      - name: Run Release Please
+        uses: google-github-actions/release-please-action@v4
         with:
           release-type: simple
-          token: ${{ github.RELEASE_PLEASE_TOKEN }}
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
 
       - name: Get the new version
         id: get_version
