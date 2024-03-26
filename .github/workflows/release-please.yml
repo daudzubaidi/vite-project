@@ -34,7 +34,8 @@ jobs:
 
       - name: Update package.json
         run: |
-          sed -i "s/\\"version\\": \\"\[^\\"\]\*\\"/\\"version\\": \\"${{ steps.get_version.outputs.version }}\\"/" package.json
+          NEW_VERSION=${{ steps.get_version.outputs.version }}
+          node -e "const fs = require('fs'); const package = JSON.parse(fs.readFileSync('package.json', 'utf8')); package.version = '$NEW_VERSION'; fs.writeFileSync('package.json', JSON.stringify(package, null, 2));"
 
       - name: Check changes
         run: |
