@@ -1,7 +1,6 @@
 name: release-please
 
 on:
-  # push:
   pull_request:
     types: [opened, synchronize]
     branches:
@@ -23,3 +22,30 @@ jobs:
         with:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           release-type: simple
+
+  update-version:
+    needs: release-please
+    if: github.ref == format('refs/heads/{0}', needs.release-please.outputs.branch)    
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Update package.json version
+        run: |
+          VERSION=$(jq -r .version package.json)
+          MAJOR_MINOR_VERSION="${VERSION%.*}"
+          PATCH_VERSION="${VERSION##*.}"
+          NEW_PATCH_VERSION=$(($PATCH_VERSION+1))
+          NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
+          jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
+      - name: Commit and push
+        run: |
+          git config --local user.email "daud.java@gmail.com"
+          git config --local user.name "daudzubaidi"
+          git diff --quiet && git diff --staged --quiet || (git commit -am "Bump version to $NEW_VERSION" && git push)
