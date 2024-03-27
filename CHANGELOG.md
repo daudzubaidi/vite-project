@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.1.3](https://github.com/daudzubaidi/vite-project/compare/v1.1.2...v1.1.3) (2024-03-27)
+
+
+### Bug Fixes
+
+* update 39 ([eda13ca](https://github.com/daudzubaidi/vite-project/commit/eda13ca97e904f7cdf0c6c52288885603f0aaba5))
+* update release-please type ([b9c795f](https://github.com/daudzubaidi/vite-project/commit/b9c795f6e19edf4f99b3f62ebabbfb1538881d66))
+* update release-please type ([78e6081](https://github.com/daudzubaidi/vite-project/commit/78e6081799ae5e865a000ae29af207b17ab139f2))
+* update release-please type ([7948db8](https://github.com/daudzubaidi/vite-project/commit/7948db8e191af5301eeb9e135ea0d75b9341cbc7))
+* update release-please type ([3ddc463](https://github.com/daudzubaidi/vite-project/commit/3ddc46350f065091736b4e96a5288710da539f80))
+* update release-please type ([f4aacdc](https://github.com/daudzubaidi/vite-project/commit/f4aacdcf662413491d7c65ec2f9dc82daba6612c))
+* update release-please type ([32f50e3](https://github.com/daudzubaidi/vite-project/commit/32f50e3f2250dc2000ed72f2751f8cb9d5e706f6))
+* update release-please type ([288fcb7](https://github.com/daudzubaidi/vite-project/commit/288fcb7284a0b8becd71029574924f4ecbb73d0b))
+* update release-please type ([1c6a668](https://github.com/daudzubaidi/vite-project/commit/1c6a66812e3483972f597f9b7ae632fe63d78028))
+* update release-please type ([de70ffa](https://github.com/daudzubaidi/vite-project/commit/de70ffa3ef5710c78b53646b36cb5aeed013a06c))
+* update release-please type ([cb2b2a0](https://github.com/daudzubaidi/vite-project/commit/cb2b2a0ae9692902b0aef0bbbfc77e30ef0f85a9))
+* update release-please type ([d87c060](https://github.com/daudzubaidi/vite-project/commit/d87c060bf5a7de42f2e07e3d113012ec6c3ccb3c))
+* update release-please type ([1ff48c9](https://github.com/daudzubaidi/vite-project/commit/1ff48c966e3df1702018779bdba7fe090879aaef))
+* update release-please type ([4089e5e](https://github.com/daudzubaidi/vite-project/commit/4089e5e2b1d031b7bbd53d813ee2f74cdea0f60e))
+* update release-please type ([353e5ee](https://github.com/daudzubaidi/vite-project/commit/353e5eea3e30e8cc54d0777632c2f0bf46147b90))
+* update release-please type ([ad072a0](https://github.com/daudzubaidi/vite-project/commit/ad072a09ef9d9c947fc8d4032d9e6e80981df8e6))
+* update release-please type ([1af233d](https://github.com/daudzubaidi/vite-project/commit/1af233de9f10c154d2053caf287175a43a7b7eb0))
+* update release-please type ([beac03d](https://github.com/daudzubaidi/vite-project/commit/beac03d0a152c4dd1dbe85fa16f8caad99b390b8))
+* update release-please type ([5ba491e](https://github.com/daudzubaidi/vite-project/commit/5ba491e5bde230dffa94507aa0d2e3ac8170c334))
+* update release-please type ([05a1bbe](https://github.com/daudzubaidi/vite-project/commit/05a1bbea20d925de12cfe7efd39d6ccf4d76164c))
+* update release-please type ([830a619](https://github.com/daudzubaidi/vite-project/commit/830a61998eb7ecdaad0abf0fe1d6196b2e87c98d))
+
 ## [1.1.2](https://github.com/daudzubaidi/vite-project/compare/v1.1.1...v1.1.2) (2024-03-27)
 
 
