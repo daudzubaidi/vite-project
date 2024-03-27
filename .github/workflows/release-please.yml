@@ -28,7 +28,7 @@ jobs:
           release-type: node
       - name: output
         run: |
-            echo "The new version is ${{ steps.release.outputs }}"
+          echo "::set-output name=release::${{ toJson(steps.release.outputs) }}"
 
   update-version:
     needs: release-please
