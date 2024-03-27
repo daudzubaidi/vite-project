@@ -47,7 +47,7 @@ jobs:
           ref: ${{ steps.get-pr-data.outputs.pr-head-branch-name }}
       - name: Update package.json version
         run: |
-            VERSION=$(echo "${{ steps.get-pr-data.outputs.pr-title }}" | grep -oP '(\d+\.\d+\.\d+)' || true)
+            VERSION=$(echo "${{ steps.get-pr-data.outputs.pr-title }}" | grep -oE '([0-9]+\.[0-9]+\.[0-9]+)' || true)
             if [[ -z "$VERSION" ]]; then
               echo "No version number found in PR title"
               # exit 1
