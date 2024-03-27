@@ -1,7 +1,8 @@
 name: release-please
 
 on:
-  push:
+  pull_request:
+    types: [opened, synchronize]
     branches:
       - main
 
@@ -13,24 +14,29 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     outputs:
-      branch: ${{ steps.release.outputs.branch }}
+      branch: "chore: release-please"
     steps:
       - name: Run Release Please
         id: release
         uses: google-github-actions/release-please-action@v4
         with:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
-          release-type: simple
+          release-type: node
+      - name: Print branch
+        run: |
+          echo "Branch: ${{ github.head_ref }}"
+          echo "Branch222: ${{ steps.release.outputs.branch }}"
+          echo "Outputs: ${{ toJson(steps.release.outputs) }}"
 
   update-version:
     needs: release-please
-    if: needs.release-please.outputs.branch != ''
+    if: github.ref == format('refs/heads/{0}', needs.release-please.outputs.branch)    
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: ${{ needs.release-please.outputs.branch }}
+          ref: ${{ github.head_ref }}
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
