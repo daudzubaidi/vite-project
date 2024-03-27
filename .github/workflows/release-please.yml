@@ -23,17 +23,7 @@ jobs:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           release-type: node
           branch-suffix: "custom-branch-name"
-
-      - name: Configure Release Please Branch Name
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Update Release Please Config
-        run: |
-          echo '{"primaryBranch":"main","releaseLabels":["release"],"handleGHRelease":true,"releaseType":"node","branchName":"release/my-custom-branch-name-${scope}"}' > .github/release-please-config.json
-
-      - name: Print Release Please Config
-        run: cat .github/release-please-config.json
+          config-file: release-please-config.json
 
       - name: Get Data from PR Release Please
         id: get-pr-data
@@ -50,14 +40,13 @@ jobs:
 
       - name: Update package.json version
         run: |
-            VERSION=$(echo "${{ steps.get-pr-data.outputs.pr-title }}" | grep -oP '(\d+\.\d+\.\d+)' || true)
-            if [[ -z "$VERSION" ]]; then
-              echo "No version number found in PR title"
-              # exit 1
-            else
-              MAJOR_MINOR_VERSION="${VERSION%.*}"
-              PATCH_VERSION="${VERSION##*.}"
-              NEW_PATCH_VERSION=$(($PATCH_VERSION+1))
-              NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
-              jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
-            fi
+          VERSION=$(echo "${{ steps.get-pr-data.outputs.pr-title }}" | grep -oP '(\d+\.\d+\.\d+)' || true)
+          if [[ -z "$VERSION" ]]; then
+            echo "No version number found in PR title"
+          else
+            MAJOR_MINOR_VERSION="${VERSION%.*}"
+            PATCH_VERSION="${VERSION##*.}"
+            NEW_PATCH_VERSION=$(($PATCH_VERSION+1))
+            NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
+            jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
+          fi
