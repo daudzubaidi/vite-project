@@ -26,7 +26,7 @@ jobs:
         run: |
           echo "Branch: ${{ github.head_ref }}"
           echo "Branch222: ${{ steps.release.outputs.branch }}"
-          echo "Branch2223333: ${{ steps.release.outputs }}"
+          echo "Outputs: ${{ toJson(steps.release.outputs) }}"
 
   update-version:
     needs: release-please
