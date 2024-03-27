@@ -45,16 +45,19 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ steps.get-pr-data.outputs.pr-head-branch-name }}
+      - name: Debug PR title
+        run: |
+          echo "PR Title: ${{ steps.get-pr-data.outputs.pr-title }}"
       - name: Update package.json version
         run: |
-            VERSION=$(echo "${{ steps.get-pr-data.outputs.pr-title }}" | grep -oE '(\[0-9\]+\\.\[0-9\]+\\.\[0-9\]+)' || true)
-            if [[ -z "$VERSION" ]]; then
-              echo "No version number found in PR title"
-              # exit 1
-            else
-              MAJOR_MINOR_VERSION="${VERSION%.*}"
-              PATCH_VERSION="${VERSION##*.}"
-              NEW_PATCH_VERSION=$(($PATCH_VERSION+1))
-              NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
-              jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
-            fi
+          PR_TITLE="${{ steps.get-pr-data.outputs.pr-title }}"
+          VERSION=${PR_TITLE##*release }
+          if [[ -z "$VERSION" ]]; then
+            echo "No version number found in PR title"
+          else
+            MAJOR_MINOR_VERSION="${VERSION%.*}"
+            PATCH_VERSION="${VERSION##*.}"
+            NEW_PATCH_VERSION=$((PATCH_VERSION+1))
+            NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
+            jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
+          fi
