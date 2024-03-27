@@ -64,14 +64,11 @@ jobs:
 
       - name: Update package.json version
         run: |
-          echo "Update package.json version::: $PR_TITLE"
-          echo "echo "$PR_TITLE""
           if [[ "$PR_TITLE" =~ .*release.* ]]; then
             VERSION=$(echo "$PR_TITLE" | grep -oP '(\d+\.\d+\.\d+)')
-            echo "VERSION:: $VERSION"
             MAJOR_MINOR_VERSION="${VERSION%.*}"
             PATCH_VERSION="${VERSION##*.}"
-            NEW_PATCH_VERSION=$((PATCH_VERSION+1))
+            NEW_PATCH_VERSION=$(($PATCH_VERSION+1))
             NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
             jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
           else
