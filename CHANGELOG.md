@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.27](https://github.com/daudzubaidi/vite-project/compare/v1.5.26...v1.5.27) (2024-03-27)
+
+
+### Bug Fixes
+
+* update to node ([15abd2c](https://github.com/daudzubaidi/vite-project/commit/15abd2c56b9d927594978d608bdb422e71264e1b))
+
 ## [1.5.26](https://github.com/daudzubaidi/vite-project/compare/v1.5.25...v1.5.26) (2024-03-27)
 
 
