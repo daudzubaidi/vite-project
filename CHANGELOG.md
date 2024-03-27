@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.4.0](https://github.com/daudzubaidi/vite-project/compare/v1.3.7...v1.4.0) (2024-03-27)
+
+
+### Features
+
+* update ([caae76d](https://github.com/daudzubaidi/vite-project/commit/caae76d85e719ffc5402a2486ba6e2f68e1d18d8))
+
+
+### Bug Fixes
+
+* update ([74fe773](https://github.com/daudzubaidi/vite-project/commit/74fe7733b0c4f164dc7faf2ac2605772745db9fd))
+* update ([99c6e2d](https://github.com/daudzubaidi/vite-project/commit/99c6e2da7828783be3197e1859caa50e4b33661f))
+* update ([6c7af3c](https://github.com/daudzubaidi/vite-project/commit/6c7af3cb14c92b1c776b43a4f3e3bd1f71fba313))
+
 ## [1.3.7](https://github.com/daudzubaidi/vite-project/compare/v1.3.6...v1.3.7) (2024-03-27)
 
 
