@@ -21,19 +21,26 @@ jobs:
             echo "Secret is available"
           fi
       - name: Run Release Please
+        id: release
         uses: google-github-actions/release-please-action@v4
         with:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           release-type: node
+      - name: output
+        if: ${{ steps.release.outputs.release_created }}
+        run: |
+            echo "The new version is ${{ steps.release.outputs }}"
 
   update-version:
     needs: release-please
     runs-on: ubuntu-latest
     steps:
+      - name: Get the version
+        run: echo "The new version is ${{ needs.pr.headBranchName }}"
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ needs.release.outputs.headBranchName }}
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
