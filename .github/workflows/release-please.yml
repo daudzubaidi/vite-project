@@ -14,7 +14,7 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     outputs:
-      branch: chore-please-release
+      branch: ${{ steps.release.outputs.branch }}
     steps:
       - name: Run Release Please
         id: release
