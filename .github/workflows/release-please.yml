@@ -36,7 +36,7 @@ jobs:
           VERSION=$(jq -r .version package.json)
           MAJOR_MINOR_VERSION="${VERSION%.*}"
           PATCH_VERSION="${VERSION##*.}"
-          NEW_PATCH_VERSION=$(($PATCH_VERSION+1))
+          NEW_PATCH_VERSION=$(($PATCH_VERSION))
           NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
           jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
       - name: Commit and push
