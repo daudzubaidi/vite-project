@@ -21,6 +21,13 @@ jobs:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           release-type: node
           branch-suffix: "custom-branch-name"
+      - name: Configure Release Please Branch Name
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Update Release Please Config
+        run: |
+          echo "branchName: 'my-custom-prefix-${releaseType}-${scope}'" >> .github/release-please.yml
       - name: Get Data from PR Release Please
         id: get-pr-data
         run: |
@@ -32,10 +39,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ steps.get-pr-data.outputs.pr-head-branch-name }}
-
-      - name: Create new branch with custom name
-        run: |
-          git checkout -b new-branch-name  
       - name: Update package.json version
         run: |
             VERSION=$(echo "${{ steps.get-pr-data.outputs.pr-title }}" | grep -oP '(\d+\.\d+\.\d+)' || true)
