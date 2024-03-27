@@ -47,10 +47,10 @@ jobs:
           ref: ${{ steps.get-pr-data.outputs.pr-head-branch-name }}
       - name: Debug PR title
         run: |
-          echo "PR Title: ${{ steps.get-pr-data.outputs.pr-title }}"
+          echo "PR Title: ${{ steps.get-pr-data.outputs.pr-title.title }}"
       - name: Update package.json version
         run: |
-          PR_TITLE="${{ steps.get-pr-data.outputs.pr-title }}"
+          PR_TITLE="${{ steps.get-pr-data.outputs.pr-title.title }}"
           VERSION=${PR_TITLE##*release }
           if [[ -z "$VERSION" ]]; then
             echo "No version number found in PR title"
