@@ -1,52 +1,26 @@
-# .github/release-please.yml
-name: release-please
 on:
   push:
     branches:
       - main
-
-permissions:
-  contents: write
-  pull-requests: write
-
+name: release-please
 jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v4
-
-      - name: Run Release Please
-        id: release
-        uses: google-github-actions/release-please-action@v4
+      - uses: google-github-actions/release-please-action@v3
         with:
-          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
-          release-type: node
-          branch-suffix: "custom-branch-name"
-          config-file: release-please-config.json
-
-      - name: Get Data from PR Release Please
-        id: get-pr-data
-        run: |
-          PR_TITLE=$(echo '${{ steps.release.outputs.pr }}' | jq -r '.title')
-          PR_HEAD_BRANCH_NAME=$(echo '${{ steps.release.outputs.pr }}' | jq -r '.headBranchName')
-          echo "PR_TITLE=$PR_TITLE" >> $GITHUB_ENV
-          echo "PR_HEAD_BRANCH_NAME=$PR_HEAD_BRANCH_NAME" >> $GITHUB_ENV
-
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ steps.get-pr-data.outputs.pr-head-branch-name }}
-
-      - name: Update package.json version
-        run: |
-          VERSION=$(echo "${{ steps.get-pr-data.outputs.pr-title }}" | grep -oP '(\d+\.\d+\.\d+)' || true)
-          if [[ -z "$VERSION" ]]; then
-            echo "No version number found in PR title"
-          else
-            MAJOR_MINOR_VERSION="${VERSION%.*}"
-            PATCH_VERSION="${VERSION##*.}"
-            NEW_PATCH_VERSION=$(($PATCH_VERSION+1))
-            NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
-            jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
-          fi
+          release-type: simple
+          changelog-types: >
+            [
+              { "type": "build", "section": "Build System", "hidden": false },
+              { "type": "ci", "section": "Continuous Integration", "hidden": false },
+              { "type": "chore", "section": "Miscellaneous Chores", "hidden": false },
+              { "type": "docs", "section": "Documentation", "hidden": false },
+              { "type": "feat", "section": "Features", "hidden": false },
+              { "type": "fix", "section": "Bug Fixes", "hidden": false },
+              { "type": "perf", "section": "Performance Improvements", "hidden": false },
+              { "type": "revert", "section": "Reverts", "hidden": false },
+              { "type": "refactor", "section": "Code Refactoring", "hidden": false },
+              { "type": "style", "section": "Styles", "hidden": false },
+              { "type": "test", "section": "Tests", "hidden": false }
+            ]
