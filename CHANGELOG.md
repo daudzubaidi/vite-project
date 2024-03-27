@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.9](https://github.com/daudzubaidi/vite-project/compare/v1.0.8...v1.0.9) (2024-03-27)
+
+
+### Bug Fixes
+
+* update apaan ([c0b1fbd](https://github.com/daudzubaidi/vite-project/commit/c0b1fbd7354b3ed9cf007d430ffd6849d3803c72))
+
 ## [1.0.8](https://github.com/daudzubaidi/vite-project/compare/v1.0.7...v1.0.8) (2024-03-27)
 
 
