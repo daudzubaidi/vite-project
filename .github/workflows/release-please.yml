@@ -12,11 +12,8 @@ permissions:
 jobs:
   release-please:
     runs-on: ubuntu-latest
-    outputs:
-      branch: ${{ steps.release.outputs.branch }}
     steps:
       - name: Run Release Please
-        id: release
         uses: google-github-actions/release-please-action@v4
         with:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
@@ -29,7 +26,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: ${{ needs.release-please.outputs.branch }}
+          ref: ${{ github.ref }}
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
@@ -46,4 +43,6 @@ jobs:
         run: |
           git config --local user.email "daud.java@gmail.com"
           git config --local user.name "daudzubaidi"
-          git diff --quiet && git diff --staged --quiet || (git commit -am "Bump version to $NEW_VERSION" && git push)
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          git checkout $BRANCH_NAME
+          git diff --quiet && git diff --staged --quiet || (git commit -am "Bump version to $NEW_VERSION" && git push origin $BRANCH_NAME)
