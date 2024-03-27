@@ -44,5 +44,4 @@ jobs:
           git config --local user.email "daud.java@gmail.com"
           git config --local user.name "daudzubaidi"
           git checkout ${{ github.head_ref }}
-          git commit -am "Bump version to $NEW_VERSION"
-          git push origin ${{ github.head_ref }}
+          git diff --quiet && git diff --staged --quiet || (git commit -am "Bump version to $NEW_VERSION" && git push origin ${{ github.head_ref }})
