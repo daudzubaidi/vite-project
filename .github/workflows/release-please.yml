@@ -29,6 +29,21 @@ jobs:
       - name: output
         run: |
           echo "::set-output name=release::${{ toJson(steps.release.outputs) }}"
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.release.outputs.headBranchName }}
+      - name: get version from title
+        run: |
+          VERSION=$(echo "${{ steps.release.outputs.pr.title }}" | grep -oP '(\d+\.\d+\.\d+)')
+          echo "The new version is $VERSION"
+      - name: Update package.json version
+        run: |
+            MAJOR_MINOR_VERSION="${VERSION%.*}"
+            PATCH_VERSION="${VERSION##*.}"
+            NEW_PATCH_VERSION=$(($PATCH_VERSION+1))
+            NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
+            jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
 
   update-version:
     needs: release-please
