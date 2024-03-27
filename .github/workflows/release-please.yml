@@ -22,6 +22,7 @@ jobs:
         with:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           release-type: node
+          target-branch: relses
       - name: Print branch
         run: |
           echo "Branch: ${{ github.head_ref }}"
