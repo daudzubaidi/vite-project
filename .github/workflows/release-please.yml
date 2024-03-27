@@ -36,7 +36,7 @@ jobs:
           # print output to json
           echo "${{ toJson(steps.release.outputs) }}"
           echo "${{ steps.release.outputs.pr }}"
-          echo "The new version is $PR_TITLE"
+          echo "The new version is $(jq -r '.title' ${{ steps.release.outputs.pr }})"
           echo "The new version is $PR_HEAD_BRANCH_NAME"
       - name: Checkout code
         uses: actions/checkout@v2
