@@ -32,6 +32,9 @@ jobs:
         run: |
           echo '{"primaryBranch":"main","releaseLabels":["release"],"handleGHRelease":true,"releaseType":"node","branchName":"release/my-custom-branch-name-${scope}"}' > .github/release-please-config.json
 
+      - name: Print Release Please Config
+        run: cat .github/release-please-config.json
+        
       - name: Debug Release Please Config
         run: cat .github/release-please.yml
 
