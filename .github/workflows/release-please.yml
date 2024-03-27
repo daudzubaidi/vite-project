@@ -13,6 +13,14 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
+      - name: Check secret
+        run: |
+          if [[ -z "${{ secrets.MY_RELEASE_PLEASE_TOKEN }}" ]]; then
+            echo "Secret is not available"
+            exit 1
+          else
+            echo "Secret is available"
+          fi
       - name: Run Release Please
         uses: google-github-actions/release-please-action@v4
         with:
