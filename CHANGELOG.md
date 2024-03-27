@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.0.4](https://github.com/daudzubaidi/vite-project/compare/v1.0.3...v1.0.4) (2024-03-27)
+
+
+### Bug Fixes
+
+* just update text ([813a70d](https://github.com/daudzubaidi/vite-project/commit/813a70d2ec71d3cc030255f27554cc6f888e9a99))
+* on push main ([27d48ff](https://github.com/daudzubaidi/vite-project/commit/27d48ffccfb0a106346527850c40f3c2c68e1eae))
+* update bump version ([75c685f](https://github.com/daudzubaidi/vite-project/commit/75c685fd078c5db32024b62267b0585537d2de44))
+* update version package.json ([c4c46bf](https://github.com/daudzubaidi/vite-project/commit/c4c46bf9eb950520e578f16b69c91694f6dc0431))
+
 ## [1.0.3](https://github.com/daudzubaidi/vite-project/compare/v1.0.2...v1.0.3) (2024-03-27)
 
 
