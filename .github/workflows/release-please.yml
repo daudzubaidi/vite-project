@@ -14,7 +14,7 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     outputs:
-      branch: "chore: release-please"
+      branch: chore-please-release
     steps:
       - name: Run Release Please
         id: release
@@ -26,7 +26,6 @@ jobs:
         run: |
           echo "Branch: ${{ github.head_ref }}"
           echo "Branch222: ${{ steps.release.outputs.branch }}"
-          echo "Outputs: ${{ toJson(steps.release.outputs) }}"
 
   update-version:
     needs: release-please
