@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.5](https://github.com/daudzubaidi/vite-project/compare/v1.3.4...v1.3.5) (2024-03-27)
+
+
+### Bug Fixes
+
+* update ([9d6007e](https://github.com/daudzubaidi/vite-project/commit/9d6007e3267398ee257053a4b7eea521416a2221))
+
 ## [1.3.4](https://github.com/daudzubaidi/vite-project/compare/v1.3.3...v1.3.4) (2024-03-27)
 
 
