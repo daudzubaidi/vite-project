@@ -27,7 +27,6 @@ jobs:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           release-type: node
       - name: output
-        if: ${{ steps.release.outputs.release_created }}
         run: |
             echo "The new version is ${{ steps.release.outputs }}"
 
