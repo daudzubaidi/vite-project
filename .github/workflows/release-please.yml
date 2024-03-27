@@ -34,9 +34,6 @@ jobs:
 
       - name: Print Release Please Config
         run: cat .github/release-please-config.json
-        
-      - name: Debug Release Please Config
-        run: cat .github/release-please.yml
 
       - name: Get Data from PR Release Please
         id: get-pr-data
