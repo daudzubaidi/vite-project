@@ -31,6 +31,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ steps.get-pr-data.outputs.pr-head-branch-name }}
+      - name: Rename branch
+        run: |
+          git branch -m ${{ steps.get-pr-data.outputs.pr-head-branch-name }} new-branch-name
       - name: Update package.json version
         run: |
             VERSION=$(echo "${{ steps.get-pr-data.outputs.pr-title }}" | grep -oP '(\d+\.\d+\.\d+)' || true)
