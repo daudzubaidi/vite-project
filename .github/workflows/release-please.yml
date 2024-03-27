@@ -26,9 +26,6 @@ jobs:
         with:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           release-type: node
-      - name: output
-        run: |
-          echo "::set-output name=release::${{ toJson(steps.release.outputs) }}"
       - name: Checkout code
         uses: actions/checkout@v2
         with:
@@ -48,6 +45,7 @@ jobs:
   update-version:
     needs: release-please
     runs-on: ubuntu-latest
+    if: false
     steps:
       - name: Get the version
         run: echo "The new version is ${{ needs.pr.headBranchName }}"
