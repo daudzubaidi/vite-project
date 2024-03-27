@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.10](https://github.com/daudzubaidi/vite-project/compare/v1.5.9...v1.5.10) (2024-03-27)
+
+
+### Bug Fixes
+
+* tryy---changelog-types ([15e83de](https://github.com/daudzubaidi/vite-project/commit/15e83de02409abe23ad7685baf2fba0066ea1517))
+
 ## [1.5.9](https://github.com/daudzubaidi/vite-project/compare/v1.5.8...v1.5.9) (2024-03-27)
 
 
