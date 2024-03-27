@@ -49,11 +49,14 @@ jobs:
         run: |
           echo "PR Title: ${{ steps.get-pr-data.outputs.pr-title }}"
           echo "PR Title: $PR_TITLE"
-      - name: Update package.json version
+
+      - name: Update version in package.json
         run: |
+          PR_TITLE=${{ steps.get-pr-data.outputs.pr-title }}
           if [ -z "$PR_TITLE" ]; then
             echo "No version number found in PR title"
           else
+            VERSION=$(echo $PR_TITLE | grep -oP 'release \K.*')
             MAJOR_MINOR_VERSION="${VERSION%.*}"
             PATCH_VERSION="${VERSION##*.}"
             NEW_PATCH_VERSION=$((PATCH_VERSION+1))
