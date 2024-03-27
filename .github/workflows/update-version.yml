@@ -54,3 +54,93 @@
 #           git checkout ${{ github.head_ref }}
 #           git commit -am "Bump version to $NEW_VERSION"
 #           git push origin ${{ github.head_ref }}
+
+# name: release-please
+# on:
+#   push:
+#     branches:
+#       - main
+
+# permissions:
+#   contents: write
+#   pull-requests: write
+
+# jobs:
+#   release-please:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Check secret
+#         run: |
+#           if [[ -z "${{ secrets.RELEASE_PLEASE_TOKEN }}" ]]; then
+#             echo "Secret is not available"
+#             exit 1
+#           else
+#             echo "Secret is available"
+#           fi
+#       - name: Run Release Please
+#         id: release
+#         uses: google-github-actions/release-please-action@v4
+#         with:
+#           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+#           release-type: node
+#       - name: Get PR Data
+#         id: get-pr-data
+#         run: |
+#           PR_TITLE=$(echo '${{ steps.release.outputs.pr }}' | jq -r '.title')
+#           PR_HEAD_BRANCH_NAME=$(echo '${{ steps.release.outputs.pr }}' | jq -r '.headBranchName')
+#           echo "::set-output name=pr-title::$PR_TITLE"
+#           echo "::set-output name=pr-head-branch-name::$PR_HEAD_BRANCH_NAME"
+#       # - name: print output
+#       #   run: |
+#       #     # print output to json
+#       #     echo "${{ toJson(steps.release.outputs) }}"
+#       #     echo "${{ steps.release.outputs.pr }}"
+#       #     echo "The new version is ${{ steps.get-pr-data.outputs.pr-title }}"
+#       #     echo "The new version is ${{ steps.get-pr-data.outputs.pr-head-branch-name }}"
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+#         with:
+#           ref: ${{ steps.get-pr-data.outputs.pr-head-branch-name }}
+#       # - name: get version from title
+#       #   run: |
+#       #     VERSION=$(echo "${{ steps.get-pr-data.outputs.pr-title.title }}" | grep -oP '(\d+\.\d+\.\d+)')
+#       #     echo "The new version is $VERSION"
+#       - name: Update package.json version
+#         run: |
+#             VERSION=$(echo "${{ steps.get-pr-data.outputs.pr-title }}" | grep -oP '(\d+\.\d+\.\d+)')
+#             MAJOR_MINOR_VERSION="${VERSION%.*}"
+#             PATCH_VERSION="${VERSION##*.}"
+#             NEW_PATCH_VERSION=$(($PATCH_VERSION+1))
+#             NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
+#             jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
+
+#   update-version:
+#     needs: release-please
+#     runs-on: ubuntu-latest
+#     if: false
+#     steps:
+#       - name: Get the version
+#         run: echo "The new version is ${{ needs.pr.headBranchName }}"
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+#         with:
+#           ref: ${{ needs.release.outputs.headBranchName }}
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: '14'
+#       - name: Update package.json version
+#         run: |
+#           VERSION=$(jq -r .version package.json)
+#           MAJOR_MINOR_VERSION="${VERSION%.*}"
+#           PATCH_VERSION="${VERSION##*.}"
+#           NEW_PATCH_VERSION=$(($PATCH_VERSION+1))
+#           NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
+#           jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
+#       - name: Commit and push
+#         run: |
+#           git config --local user.email "daud.java@gmail.com"
+#           git config --local user.name "daudzubaidi"
+#           git checkout ${{ github.head_ref }}
+#           git commit -am "Bump version to $NEW_VERSION"
+#           git push origin ${{ github.head_ref }}
