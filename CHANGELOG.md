@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.20](https://github.com/daudzubaidi/vite-project/compare/v1.5.19...v1.5.20) (2024-03-27)
+
+
+### Bug Fixes
+
+* update to node ([4dc913a](https://github.com/daudzubaidi/vite-project/commit/4dc913a198ce4be7a75c48b6284b4f36e1699185))
+
 ## [1.5.19](https://github.com/daudzubaidi/vite-project/compare/v1.5.18...v1.5.19) (2024-03-27)
 
 
