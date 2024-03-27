@@ -2,4 +2,4 @@
 
 update readme
 
-package json not updated
+package json not updated2
