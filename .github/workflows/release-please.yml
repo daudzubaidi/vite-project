@@ -33,7 +33,7 @@ jobs:
         run: |
           # print output to json
           echo "${{ toJson(steps.release.outputs) }}"
-          echo "${{ toJson(steps.release.outputs.pr) }}"
+          echo "${{ steps.release.outputs.pr }}"
           echo "The new version is $PR_TITLE"
           echo "The new version is $HEAD_BRANCH_NAME"
       - name: Checkout code
