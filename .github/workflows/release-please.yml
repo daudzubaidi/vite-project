@@ -52,7 +52,7 @@ jobs:
 
       - name: Update version in package.json
         run: |
-          PR_TITLE=${{ steps.get-pr-data.outputs.pr-title }}
+          PR_TITLE=${{ steps.get-pr-data.outputs.PR_TITLE }}
           if [ -z "$PR_TITLE" ]; then
             echo "No version number found in PR title"
           else
