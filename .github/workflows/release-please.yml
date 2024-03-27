@@ -52,14 +52,13 @@ jobs:
 
       - name: Update package.json version
         run: |
-          VERSION=$(echo "${{ steps.get-pr-data.outputs.pr-title }}" | grep -oP '(\d+\.\d+\.\d+)' || true)
-          if [[ -z "$VERSION" ]]; then
-            echo "No version number found in PR title"
-            exit 1
-          else
+          if [[ "$PR_TITLE" =~ .*release.* ]]; then
+            VERSION=$(echo "$PR_TITLE" | grep -oP '(\d+\.\d+\.\d+)')
             MAJOR_MINOR_VERSION="${VERSION%.*}"
             PATCH_VERSION="${VERSION##*.}"
             NEW_PATCH_VERSION=$(($PATCH_VERSION+1))
             NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
             jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
+          else
+            echo "No version found in PR title, skipping package.json update."
           fi
