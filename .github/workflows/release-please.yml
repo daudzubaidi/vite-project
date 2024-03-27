@@ -30,26 +30,27 @@ jobs:
         id: get-pr-data
         run: |
           PR_TITLE=$(echo '${{ steps.release.outputs.pr }}' | jq -r '.title')
+          PR_HEAD_BRANCH_NAME=$(echo '${{ steps.release.outputs.pr }}' | jq -r '.headBranchName')
           echo "::set-output name=pr-title::$PR_TITLE"
-      - name: print output
-        run: |
-          PR_TITLE=$(jq -r '.title' ${{ steps.release.outputs.pr }})
-          PR_HEAD_BRANCH_NAME==$(jq -r '.pull_request.headBranchName' ${{ steps.release.outputs.pr }})
-          # print output to json
-          echo "${{ toJson(steps.release.outputs) }}"
-          echo "${{ steps.release.outputs.pr }}"
-          echo "The new version is ${{ steps.get-pr-data.outputs.pr-title }})"
-          echo "The new version is $PR_HEAD_BRANCH_NAME"
+          echo "::set-output name=pr-head-branch-name::$PR_HEAD_BRANCH_NAME"
+      # - name: print output
+      #   run: |
+      #     # print output to json
+      #     echo "${{ toJson(steps.release.outputs) }}"
+      #     echo "${{ steps.release.outputs.pr }}"
+      #     echo "The new version is ${{ steps.get-pr-data.outputs.pr-title }}"
+      #     echo "The new version is ${{ steps.get-pr-data.outputs.pr-head-branch-name }}"
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: ${{ steps.release.outputs.pr.headBranchName }}
-      - name: get version from title
-        run: |
-          VERSION=$(echo "${{ steps.release.outputs.pr.title }}" | grep -oP '(\d+\.\d+\.\d+)')
-          echo "The new version is $VERSION"
+          ref: ${{ steps.get-pr-data.outputs.pr-head-branch-name }}
+      # - name: get version from title
+      #   run: |
+      #     VERSION=$(echo "${{ steps.get-pr-data.outputs.pr-title.title }}" | grep -oP '(\d+\.\d+\.\d+)')
+      #     echo "The new version is $VERSION"
       - name: Update package.json version
         run: |
+            VERSION=$(echo "${{ steps.get-pr-data.outputs.pr-title.title }}" | grep -oP '(\d+\.\d+\.\d+)')
             MAJOR_MINOR_VERSION="${VERSION%.*}"
             PATCH_VERSION="${VERSION##*.}"
             NEW_PATCH_VERSION=$(($PATCH_VERSION+1))
