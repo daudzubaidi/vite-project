@@ -21,9 +21,21 @@ jobs:
         uses: google-github-actions/release-please-action@v4
         with:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
-          release-type: node
-          branch-suffix: "custom-branch-name"
-          config-file: release-please-config.json
+          release-type: simple
+          changelog-types: >
+            [
+              { "type": "build", "section": "Build System", "hidden": false },
+              { "type": "ci", "section": "Continuous Integration", "hidden": false },
+              { "type": "chore", "section": "Miscellaneous Chores", "hidden": false },
+              { "type": "docs", "section": "Documentation", "hidden": false },
+              { "type": "feat", "section": "Features", "hidden": false },
+              { "type": "fix", "section": "Bug Fixes", "hidden": false },
+              { "type": "perf", "section": "Performance Improvements", "hidden": false },
+              { "type": "revert", "section": "Reverts", "hidden": false },
+              { "type": "refactor", "section": "Code Refactoring", "hidden": false },
+              { "type": "style", "section": "Styles", "hidden": false },
+              { "type": "test", "section": "Tests", "hidden": false }
+            ]
 
       - name: Get Data from PR Release Please
         id: get-pr-data
@@ -42,7 +54,7 @@ jobs:
         run: |
           VERSION=$(echo "${{ steps.get-pr-data.outputs.pr-title }}" | grep -oP '(\d+\.\d+\.\d+)' || true)
           if [[ -z "$VERSION" ]]; then
-            echo "::error::No version number found in PR title"
+            echo "No version number found in PR title"
             exit 1
           else
             MAJOR_MINOR_VERSION="${VERSION%.*}"
