@@ -12,6 +12,10 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
       - name: Run Release Please
         id: release
         uses: google-github-actions/release-please-action@v4
