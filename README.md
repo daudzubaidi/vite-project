@@ -1,5 +1,3 @@
 # React + TypeScript + Vite
 
-update readme
-
-package json not updated41
+package json update version to 1.2.2
