@@ -1,3 +1,3 @@
 # React + TypeScript + Vite
 
-package json update version2
+package json update version
