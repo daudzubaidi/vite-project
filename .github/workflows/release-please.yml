@@ -31,11 +31,13 @@ jobs:
           PR_TITLE: ${{ steps.release.outputs.pr.title }}
           HEAD_BRANCH_NAME: ${{ steps.release.outputs.pr.headBranchName }}
         run: |
+          PR_TITLE=$(jq -r '.title' ${{ steps.release.outputs.pr }})
+          PR_HEAD_BRANCH_NAME==$(jq -r '.pull_request.headBranchName' ${{ steps.release.outputs.pr }})
           # print output to json
           echo "${{ toJson(steps.release.outputs) }}"
           echo "${{ steps.release.outputs.pr }}"
           echo "The new version is $PR_TITLE"
-          echo "The new version is $HEAD_BRANCH_NAME"
+          echo "The new version is $PR_HEAD_BRANCH_NAME"
       - name: Checkout code
         uses: actions/checkout@v2
         with:
