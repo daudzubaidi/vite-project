@@ -27,12 +27,15 @@ jobs:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           release-type: node
       - name: print output
+        env:
+          PR_TITLE: ${{ steps.release.outputs.pr.title }}
+          HEAD_BRANCH_NAME: ${{ steps.release.outputs.pr.headBranchName }}
         run: |
           # print output to json
           echo "${{ toJson(steps.release.outputs) }}"
           echo "${{ toJson(steps.release.outputs.pr) }}"
-          echo "The new version is ${{ toJson(steps.release.outputs.pr).title }}"
-          echo "The new version is ${{ toJson(steps.release.outputs.pr).headBranchName }}"
+          echo "The new version is $PR_TITLE"
+          echo "The new version is $HEAD_BRANCH_NAME"
       - name: Checkout code
         uses: actions/checkout@v2
         with:
