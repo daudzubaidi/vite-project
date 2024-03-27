@@ -50,7 +50,7 @@ jobs:
       #     echo "The new version is $VERSION"
       - name: Update package.json version
         run: |
-            VERSION=$(echo "${{ steps.get-pr-data.outputs.pr-title.title }}" | grep -oP '(\d+\.\d+\.\d+)')
+            VERSION=$(echo "${{ steps.get-pr-data.outputs.pr-title }}" | grep -oP '(\d+\.\d+\.\d+)')
             MAJOR_MINOR_VERSION="${VERSION%.*}"
             PATCH_VERSION="${VERSION##*.}"
             NEW_PATCH_VERSION=$(($PATCH_VERSION+1))
