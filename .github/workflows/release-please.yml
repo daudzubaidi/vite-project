@@ -32,7 +32,7 @@ jobs:
           ref: ${{ steps.release.outputs.headBranchName }}
       - name: get version from title
         run: |
-          VERSION=$(echo "${{ steps.release.outputs.pr.title }}" | grep -oP '(\d+\.\d+\.\d+)')
+          VERSION=$(echo "${{ steps.release.outputs.title }}" | grep -oP '(\d+\.\d+\.\d+)')
           echo "The new version is $VERSION"
       - name: Update package.json version
         run: |
