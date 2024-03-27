@@ -26,6 +26,11 @@ jobs:
         with:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           release-type: node
+      - name: Get PR Data
+        id: get-pr-data
+        run: |
+          PR_TITLE=$(jq -r '.title' "$GITHUB_EVENT_PATH")
+          echo "::set-output name=pr-title::$PR_TITLE"
       - name: print output
         env:
           PR_TITLE: ${{ steps.release.outputs.pr.title }}
@@ -36,7 +41,7 @@ jobs:
           # print output to json
           echo "${{ toJson(steps.release.outputs) }}"
           echo "${{ steps.release.outputs.pr }}"
-          echo "The new version is $(jq -r '.title' ${{ steps.release.outputs.pr }})"
+          echo "The new version is ${{ steps.get-pr-data.outputs.pr-title }})"
           echo "The new version is $PR_HEAD_BRANCH_NAME"
       - name: Checkout code
         uses: actions/checkout@v2
