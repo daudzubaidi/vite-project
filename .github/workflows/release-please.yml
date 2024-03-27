@@ -48,8 +48,6 @@ jobs:
       - name: Debug PR title
         run: |
           echo "PR Title: $PR_TITLE"
-          PR_TITLE=${{ steps.get-pr-data.outputs.pr-title }}
-          echo "New PR Title: $PR_TITLE"
           if [[ "$PR_TITLE" =~ release.* ]]; then
             echo "PR_TITLE contains 'release'"
           else
@@ -57,8 +55,7 @@ jobs:
           fi
       - name: Debug PR title2
         run: |
-          echo "PR Title: ${{ steps.get-pr-data.outputs.pr-title }}"
-          echo "PR_TITLE=${{ steps.get-pr-data.outputs.pr-title }}" >> $GITHUB_ENV
+          echo "New PR Title: $PR_TITLE"
           if [[ "$PR_TITLE" =~ .*release.* ]]; then
             echo "PR_TITLE contains 'release'"
           else
@@ -67,10 +64,10 @@ jobs:
 
       - name: Update package.json version
         run: |
-          echo "PR Title: ${{ steps.get-pr-data.outputs.pr-title }}"
-          echo "PR_TITLE=${{ steps.get-pr-data.outputs.pr-title }}" >> $GITHUB_ENV
+          echo "Update package.json version::: $PR_TITLE"
           if [[ "$PR_TITLE" =~ .*release.* ]]; then
-            VERSION=$(echo "$PR_TITLE" | grep -oP '(\d+\.\d+\.\d+)')
+            VERSION=$(echo "PR_TITLE=${{ steps.get-pr-data.outputs.pr-title }}" | grep -oP '(\d+\.\d+\.\d+)')
+            echo "VERSION:: $VERSION"
             MAJOR_MINOR_VERSION="${VERSION%.*}"
             PATCH_VERSION="${VERSION##*.}"
             NEW_PATCH_VERSION=$((PATCH_VERSION+1))
