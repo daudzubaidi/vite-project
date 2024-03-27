@@ -1,3 +1,4 @@
+# .github/release-please.yml
 name: release-please
 on:
   push:
@@ -14,6 +15,7 @@ jobs:
     steps:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
+
       - name: Run Release Please
         id: release
         uses: google-github-actions/release-please-action@v4
@@ -21,13 +23,15 @@ jobs:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           release-type: node
           branch-suffix: "custom-branch-name"
+
       - name: Configure Release Please Branch Name
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Update Release Please Config
         run: |
-          echo "branchName: 'my-custom-prefix-${releaseType}-${scope}'" >> .github/release-please.yml
+          echo "branchName: 'release/my-custom-branch-name-${scope}'" >> .github/release-please.yml
+
       - name: Get Data from PR Release Please
         id: get-pr-data
         run: |
@@ -35,10 +39,12 @@ jobs:
           PR_HEAD_BRANCH_NAME=$(echo '${{ steps.release.outputs.pr }}' | jq -r '.headBranchName')
           echo "PR_TITLE=$PR_TITLE" >> $GITHUB_ENV
           echo "PR_HEAD_BRANCH_NAME=$PR_HEAD_BRANCH_NAME" >> $GITHUB_ENV
+
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           ref: ${{ steps.get-pr-data.outputs.pr-head-branch-name }}
+
       - name: Update package.json version
         run: |
             VERSION=$(echo "${{ steps.get-pr-data.outputs.pr-title }}" | grep -oP '(\d+\.\d+\.\d+)' || true)
