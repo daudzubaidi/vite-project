@@ -1,0 +1,7 @@
+{
+    "primaryBranch": "main",
+    "releaseLabels": ["release"],
+    "handleGHRelease": true,
+    "releaseType": "node",
+    "branchName": "release/my-custom-branch-name-${scope}"
+  }

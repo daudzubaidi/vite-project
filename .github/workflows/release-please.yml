@@ -30,7 +30,10 @@ jobs:
           fetch-depth: 0
       - name: Update Release Please Config
         run: |
-          echo "branchName: 'release/my-custom-branch-name-${scope}'" >> .github/release-please.yml
+          echo '{"primaryBranch":"main","releaseLabels":["release"],"handleGHRelease":true,"releaseType":"node","branchName":"release/my-custom-branch-name-${scope}"}' > .github/release-please-config.json
+
+      - name: Debug Release Please Config
+        run: cat .github/release-please.yml
 
       - name: Get Data from PR Release Please
         id: get-pr-data
