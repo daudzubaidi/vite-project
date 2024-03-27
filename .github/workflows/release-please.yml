@@ -1,15 +1,25 @@
+name: release-please
 on:
   push:
     branches:
       - main
-name: release-please
+
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-      - uses: google-github-actions/release-please-action@v3
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+      - name: Run Release Please
+        id: release
+        uses: google-github-actions/release-please-action@v4
         with:
-          release-type: node
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+          release-type: simple
           changelog-types: >
             [
               { "type": "build", "section": "Build System", "hidden": false },
@@ -24,3 +34,27 @@ jobs:
               { "type": "style", "section": "Styles", "hidden": false },
               { "type": "test", "section": "Tests", "hidden": false }
             ]
+      - name: Get Data from PR Release Please
+        id: get-pr-data
+        run: |
+          PR_TITLE=$(echo '${{ steps.release.outputs.pr }}' | jq -r '.title')
+          PR_HEAD_BRANCH_NAME=$(echo '${{ steps.release.outputs.pr }}' | jq -r '.headBranchName')
+          echo "PR_TITLE=$PR_TITLE" >> $GITHUB_ENV
+          echo "PR_HEAD_BRANCH_NAME=$PR_HEAD_BRANCH_NAME" >> $GITHUB_ENV
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.get-pr-data.outputs.pr-head-branch-name }}
+      - name: Update package.json version
+        run: |
+            VERSION=$(echo "${{ steps.get-pr-data.outputs.pr-title }}" | grep -oP '(\d+\.\d+\.\d+)' || true)
+            if [[ -z "$VERSION" ]]; then
+              echo "No version number found in PR title"
+              # exit 1
+            else
+              MAJOR_MINOR_VERSION="${VERSION%.*}"
+              PATCH_VERSION="${VERSION##*.}"
+              NEW_PATCH_VERSION=$(($PATCH_VERSION+1))
+              NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
+              jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
+            fi
