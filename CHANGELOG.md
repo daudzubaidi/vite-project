@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.0.3](https://github.com/daudzubaidi/vite-project/compare/v1.0.2...v1.0.3) (2024-03-27)
+
+
+### Bug Fixes
+
+* add github.token ([44d3e0d](https://github.com/daudzubaidi/vite-project/commit/44d3e0d3a097accbfadfdbb7a29fa0fdbd2378ba))
+* add secreet.MY_RELEASE_PLEASE_TOKEN ([67e66fd](https://github.com/daudzubaidi/vite-project/commit/67e66fde5598d668d350d4001a12fbc4baf0a729))
+* add token ([5975c1b](https://github.com/daudzubaidi/vite-project/commit/5975c1b2fce3da1b794c98b82914d5d774dacd99))
+* change with github ([08b0cc8](https://github.com/daudzubaidi/vite-project/commit/08b0cc87e3ffb445aecf33ddc6f7f98a10b6eb8d))
+* remove secreate ([d0e668e](https://github.com/daudzubaidi/vite-project/commit/d0e668e055167a83a9d1dda3c89a4944526bb362))
+* secreat ([783e271](https://github.com/daudzubaidi/vite-project/commit/783e27195697224a359bae9a9c68310ab90a04d1))
+* test ([80b6a76](https://github.com/daudzubaidi/vite-project/commit/80b6a76e5e0d372dc59a3a93c60a54ad8b379044))
+
 ## [1.0.2](https://github.com/daudzubaidi/vite-project/compare/v1.0.1...v1.0.2) (2024-03-26)
 
 
