@@ -26,7 +26,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.ref }}
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
@@ -36,12 +36,13 @@ jobs:
           VERSION=$(jq -r .version package.json)
           MAJOR_MINOR_VERSION="${VERSION%.*}"
           PATCH_VERSION="${VERSION##*.}"
-          NEW_PATCH_VERSION=$(($PATCH_VERSION))
+          NEW_PATCH_VERSION=$(($PATCH_VERSION+1))
           NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
           jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
       - name: Commit and push
         run: |
           git config --local user.email "daud.java@gmail.com"
           git config --local user.name "daudzubaidi"
-          git checkout ${{ github.head_ref }}
-          git diff --quiet && git diff --staged --quiet || (git commit -am "Bump version to $NEW_VERSION" && git push origin ${{ github.head_ref }})
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          git checkout $BRANCH_NAME
+          git diff --quiet && git diff --staged --quiet || (git commit -am "Bump version to $NEW_VERSION" && git push origin $BRANCH_NAME)
