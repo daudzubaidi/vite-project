@@ -47,10 +47,19 @@ jobs:
           ref: ${{ steps.get-pr-data.outputs.pr-head-branch-name }}
       - name: Debug PR title
         run: |
-          echo "PR Title: ${{ steps.get-pr-data.outputs.pr-title }}"
           echo "PR Title: $PR_TITLE"
           PR_TITLE=${{ steps.get-pr-data.outputs.pr-title }}
+          echo "New PR Title: $PR_TITLE"
           if [[ "$PR_TITLE" =~ release.* ]]; then
+            echo "PR_TITLE contains 'release'"
+          else
+            echo "PR_TITLE does not contain 'release'"
+          fi
+      - name: Debug PR title2
+        run: |
+          echo "PR Title: ${{ steps.get-pr-data.outputs.pr-title }}"
+          echo "PR_TITLE=${{ steps.get-pr-data.outputs.pr-title }}" >> $GITHUB_ENV
+          if [[ "$PR_TITLE" =~ .*release.* ]]; then
             echo "PR_TITLE contains 'release'"
           else
             echo "PR_TITLE does not contain 'release'"
