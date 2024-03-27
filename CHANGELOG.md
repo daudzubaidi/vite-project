@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.1.0](https://github.com/daudzubaidi/vite-project/compare/v1.0.10...v1.1.0) (2024-03-27)
+
+
+### Features
+
+* add feate ([eb319d2](https://github.com/daudzubaidi/vite-project/commit/eb319d2df66ee63b0298d47e774d3995d88f4626))
+
+
+### Bug Fixes
+
+* add echo ([c83ebe1](https://github.com/daudzubaidi/vite-project/commit/c83ebe1b8147e0ea6ca50f7e6fe89f9f01752d18))
+* release type node ([898e645](https://github.com/daudzubaidi/vite-project/commit/898e645c5f93d0120bb09cf887beb822d58ea5b0))
+* test ([f6cd360](https://github.com/daudzubaidi/vite-project/commit/f6cd360cfdd6a05dbb615f8d24ef6de03f5475ac))
+* test ([5948733](https://github.com/daudzubaidi/vite-project/commit/5948733dc4b5b032b715b9bd3a3e03382ea9808e))
+* try again ([f167dbf](https://github.com/daudzubaidi/vite-project/commit/f167dbf2cb67fa62573232f06d65758461da0bcb))
+* try print head ([adabfde](https://github.com/daudzubaidi/vite-project/commit/adabfde4c0c0c67f6de2cbdf454b128a6fa877a9))
+* update ([70fd95b](https://github.com/daudzubaidi/vite-project/commit/70fd95b4aac823e98f0f58409ce4c72330cd0773))
+* update branch ouput ([aba2e6b](https://github.com/daudzubaidi/vite-project/commit/aba2e6b6220f789939de84702309736927a69134))
+* update release-please.yml ([fc12dec](https://github.com/daudzubaidi/vite-project/commit/fc12dec53cc5f5c1009ae6dff1051a95751b29ae))
+
 ## [1.0.10](https://github.com/daudzubaidi/vite-project/compare/v1.0.9...v1.0.10) (2024-03-27)
 
 
