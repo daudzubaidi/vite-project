@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/daudzubaidi/vite-project/compare/v1.2.1...v1.3.0) (2024-03-27)
+
+
+### Features
+
+* update 2.1.7 ([e686579](https://github.com/daudzubaidi/vite-project/commit/e686579983bacd9f193f20239c97c71ac1b08e02))
+
 ## [1.2.1](https://github.com/daudzubaidi/vite-project/compare/v1.2.0...v1.2.1) (2024-03-27)
 
 
