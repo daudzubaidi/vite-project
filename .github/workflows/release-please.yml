@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Check secret
         run: |
-          if [[ -z "${{ secrets.MY_RELEASE_PLEASE_TOKEN }}" ]]; then
+          if [[ -z "${{ secrets.RELEASE_PLEASE_TOKEN }}" ]]; then
             echo "Secret is not available"
             exit 1
           else
@@ -24,5 +24,5 @@ jobs:
       - name: Run Release Please
         uses: google-github-actions/release-please-action@v4
         with:
-          token: ${{ secrets.MY_RELEASE_PLEASE_TOKEN }}
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           release-type: simple
