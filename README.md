@@ -1,3 +1,3 @@
 # React + TypeScript + Vite
 
-package json update version to 1.2.3
+package json update version to 2.1.7
