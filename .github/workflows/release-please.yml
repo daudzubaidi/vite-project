@@ -50,7 +50,7 @@ jobs:
           echo "PR Title: ${{ steps.get-pr-data.outputs.pr-title }}"
           echo "PR Title: $PR_TITLE"
           PR_TITLE=${{ steps.get-pr-data.outputs.pr-title }}
-          if [[ "$PR_TITLE" =~ "release" ]]; then
+          if [[ "$PR_TITLE" =~ release ]]; then
             echo "PR_TITLE contains 'release'"
           else
             echo "PR_TITLE does not contain 'release'"
@@ -58,8 +58,8 @@ jobs:
 
       - name: Update package.json version
         run: |
-          PR_TITLE=${{ steps.get-pr-data.outputs.pr-title }}
-          if [[ "$PR_TITLE" =~ "release" ]]; then
+          PR_TITLE=${{ steps.get-pr-data.outputs.PR_TITLE }}
+          if [[ "$PR_TITLE" =~ release ]]; then
             VERSION=$(echo "$PR_TITLE" | grep -oP '(\d+\.\d+\.\d+)')
             MAJOR_MINOR_VERSION="${VERSION%.*}"
             PATCH_VERSION="${VERSION##*.}"
