@@ -29,10 +29,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: ${{ steps.release.outputs.headBranchName }}
+          ref: ${{ steps.release.outputs.pr.headBranchName }}
       - name: get version from title
         run: |
-          VERSION=$(echo "${{ steps.release.outputs.title }}" | grep -oP '(\d+\.\d+\.\d+)')
+          VERSION=$(echo "${{ steps.release.outputs.pr.title }}" | grep -oP '(\d+\.\d+\.\d+)')
           echo "The new version is $VERSION"
       - name: Update package.json version
         run: |
