@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/daudzubaidi/vite-project/compare/v1.3.1...v1.3.2) (2024-03-27)
+
+
+### Bug Fixes
+
+* package.json version with error handling for missing version number ([593e5f3](https://github.com/daudzubaidi/vite-project/commit/593e5f31b2a2763e4ec28429d50455c2db3e5b0d))
+
 ## [1.3.1](https://github.com/daudzubaidi/vite-project/compare/v1.3.0...v1.3.1) (2024-03-27)
 
 
