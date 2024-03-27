@@ -1,3 +1,3 @@
 # React + TypeScript + Vite
 
-package json update version to test
+package json update version
