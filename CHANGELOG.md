@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.34](https://github.com/daudzubaidi/vite-project/compare/v1.5.33...v1.5.34) (2024-03-28)
+
+
+### Bug Fixes
+
+* this command meaning patching ([b88884e](https://github.com/daudzubaidi/vite-project/commit/b88884e1bd9652a7f1fa9cb89805cbd5c10e7976))
+
 ## [1.5.33](https://github.com/daudzubaidi/vite-project/compare/v1.5.32...v1.5.33) (2024-03-28)
 
 
