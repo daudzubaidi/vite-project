@@ -74,6 +74,8 @@ jobs:
 
       - name: Commit and Push Changes
         run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
           NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
           jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
           echo "Updated package.json to version $NEW_VERSION."
