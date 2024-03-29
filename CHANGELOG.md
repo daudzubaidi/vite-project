@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.38](https://github.com/daudzubaidi/vite-project/compare/v1.5.37...v1.5.38) (2024-03-29)
+
+
+### Bug Fixes
+
+* trd ([ffd877e](https://github.com/daudzubaidi/vite-project/commit/ffd877ec06a32e3183fff6912c6b39da001d99fe))
+
 ## [1.5.37](https://github.com/daudzubaidi/vite-project/compare/v1.5.36...v1.5.37) (2024-03-29)
 
 
