@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.39](https://github.com/daudzubaidi/vite-project/compare/v1.5.38...v1.5.39) (2024-03-29)
+
+
+### Bug Fixes
+
+* skip comit and push if no env version ([704b76c](https://github.com/daudzubaidi/vite-project/commit/704b76c03fe5564f1a7aae9dedf84c3d41f6405d))
+
 ## [1.5.38](https://github.com/daudzubaidi/vite-project/compare/v1.5.37...v1.5.38) (2024-03-29)
 
 
