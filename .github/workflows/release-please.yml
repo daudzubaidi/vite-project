@@ -65,6 +65,7 @@ jobs:
               NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
               jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
               echo "Updated package.json to version $NEW_VERSION."
+              echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
             else
               echo "No version found in PR title or last commit, skipping package.json update."
             fi
@@ -76,7 +77,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
           jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
           echo "Updated package.json to version $NEW_VERSION."
           git add package.json
