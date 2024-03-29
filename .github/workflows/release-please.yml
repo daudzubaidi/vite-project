@@ -47,7 +47,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: ${{ steps.get-pr-data.outputs.pr-head-branch-name }}
+          ref: ${{ env.PR_HEAD_BRANCH_NAME }}
 
       - name: Update package.json version
         run: |
@@ -71,3 +71,11 @@ jobs:
           else
             echo "PR title does not indicate a release, skipping package.json update."
           fi
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add package.json
+          git commit -m "chore: bump version to $NEW_VERSION"
+          git push origin ${{ env.PR_HEAD_BRANCH_NAME }}
