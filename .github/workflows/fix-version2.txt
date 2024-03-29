@@ -1,0 +1,84 @@
+# .github/release-please.yml
+name: release-please
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+
+      - name: Run Release Please
+        id: release
+        uses: google-github-actions/release-please-action@v4
+        with:
+          release-type: simple
+          changelog-types: >
+            [
+              { "type": "build", "section": "Build System", "hidden": false },
+              { "type": "ci", "section": "Continuous Integration", "hidden": false },
+              { "type": "chore", "section": "Miscellaneous Chores", "hidden": false },
+              { "type": "docs", "section": "Documentation", "hidden": false },
+              { "type": "feat", "section": "Features", "hidden": false },
+              { "type": "fix", "section": "Bug Fixes", "hidden": false },
+              { "type": "perf", "section": "Performance Improvements", "hidden": false },
+              { "type": "revert", "section": "Reverts", "hidden": false },
+              { "type": "refactor", "section": "Code Refactoring", "hidden": false },
+              { "type": "style", "section": "Styles", "hidden": false },
+              { "type": "test", "section": "Tests", "hidden": false }
+            ]
+
+      - name: Get Data from PR Release Please
+        id: get-pr-data
+        run: |
+          PR_TITLE=$(echo '${{ steps.release.outputs.pr }}' | jq -r '.title')
+          PR_HEAD_BRANCH_NAME=$(echo '${{ steps.release.outputs.pr }}' | jq -r '.headBranchName')
+          echo "PR_TITLE=$PR_TITLE" >> $GITHUB_ENV
+          echo "PR_HEAD_BRANCH_NAME=$PR_HEAD_BRANCH_NAME" >> $GITHUB_ENV
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ env.PR_HEAD_BRANCH_NAME }}
+
+      - name: Update package.json version
+        run: |
+          if [[ "$PR_TITLE" =~ .*release.* ]]; then
+            VERSION=$(echo "$PR_TITLE" | grep -oP '(\d+\.\d+\.\d+)')
+            if [ -z "$VERSION" ]; then
+              echo "No version found in PR title, trying to extract from last commit for simple release type."
+              LAST_COMMIT_MSG=$(git log -1 --pretty=%B)
+              VERSION=$(echo "$LAST_COMMIT_MSG" | grep -oP '(\d+\.\d+\.\d+)')
+            fi
+            if [ ! -z "$VERSION" ]; then
+              MAJOR_MINOR_VERSION="${VERSION%.*}"
+              PATCH_VERSION="${VERSION##*.}"
+              NEW_PATCH_VERSION=$(($PATCH_VERSION))
+              NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
+              jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
+              echo "Updated package.json to version $NEW_VERSION."
+              echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+            else
+              echo "No version found in PR title or last commit, skipping package.json update."
+            fi
+          else
+            echo "PR title does not indicate a release, skipping package.json update."
+          fi
+
+      - name: Commit and Push Changes
+        if: env.NEW_VERSION != ''
+        run: |
+          NEW_VERSION=${{ env.NEW_VERSION }}
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add package.json
+          git commit -m "chore: bump version to $NEW_VERSION"
+          git push origin ${{ env.PR_HEAD_BRANCH_NAME }}
