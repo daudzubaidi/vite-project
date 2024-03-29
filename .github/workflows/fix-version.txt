@@ -44,3 +44,70 @@ jobs:
               NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
               jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
             fi
+
+            Update
+
+# .github/release-please.yml
+name: release-please
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+
+      - name: Run Release Please
+        id: release
+        uses: google-github-actions/release-please-action@v4
+        with:
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+          release-type: node
+          changelog-types: >
+            [
+              { "type": "build", "section": "Build System", "hidden": false },
+              { "type": "ci", "section": "Continuous Integration", "hidden": false },
+              { "type": "chore", "section": "Miscellaneous Chores", "hidden": false },
+              { "type": "docs", "section": "Documentation", "hidden": false },
+              { "type": "feat", "section": "Features", "hidden": false },
+              { "type": "fix", "section": "Bug Fixes", "hidden": false },
+              { "type": "perf", "section": "Performance Improvements", "hidden": false },
+              { "type": "revert", "section": "Reverts", "hidden": false },
+              { "type": "refactor", "section": "Code Refactoring", "hidden": false },
+              { "type": "style", "section": "Styles", "hidden": false },
+              { "type": "test", "section": "Tests", "hidden": false }
+            ]
+
+      - name: Get Data from PR Release Please
+        id: get-pr-data
+        run: |
+          PR_TITLE=$(echo '${{ steps.release.outputs.pr }}' | jq -r '.title')
+          PR_HEAD_BRANCH_NAME=$(echo '${{ steps.release.outputs.pr }}' | jq -r '.headBranchName')
+          echo "PR_TITLE=$PR_TITLE" >> $GITHUB_ENV
+          echo "PR_HEAD_BRANCH_NAME=$PR_HEAD_BRANCH_NAME" >> $GITHUB_ENV
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.get-pr-data.outputs.pr-head-branch-name }}
+
+      - name: Update package.json version
+        run: |
+          if [[ "$PR_TITLE" =~ .*release.* ]]; then
+            VERSION=$(echo "$PR_TITLE" | grep -oP '(\d+\.\d+\.\d+)')
+            MAJOR_MINOR_VERSION="${VERSION%.*}"
+            PATCH_VERSION="${VERSION##*.}"
+            NEW_PATCH_VERSION=$(($PATCH_VERSION+1))
+            NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
+            jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
+          else
+            echo "No version found in PR title, skipping package.json update."
+          fi
