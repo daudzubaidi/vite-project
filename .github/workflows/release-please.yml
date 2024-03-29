@@ -74,11 +74,11 @@ jobs:
           fi
 
       - name: Commit and Push Changes
+        if: env.NEW_VERSION != ''
         run: |
+          NEW_VERSION=${{ env.NEW_VERSION }}
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
-          echo "Updated package.json to version $NEW_VERSION."
           git add package.json
           git commit -m "chore: bump version to $NEW_VERSION"
           git push origin ${{ env.PR_HEAD_BRANCH_NAME }}
