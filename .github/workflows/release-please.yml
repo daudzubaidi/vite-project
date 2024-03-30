@@ -69,15 +69,9 @@ jobs:
             # Logic for full release versioning
             NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
           fi
-            jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
-            echo "Updated package.json to version $NEW_VERSION."
-            echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
-            else
-              echo "No version found in PR title or last commit, skipping package.json update."
-            fi
-          else
-            echo "PR title does not indicate a release, skipping package.json update."
-          fi
+          jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
+          echo "Updated package.json to version $NEW_VERSION."
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
       - name: Commit and Push Changes
         if: env.NEW_VERSION != ''
