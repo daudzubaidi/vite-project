@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.0.5-alpha1](https://github.com/daudzubaidi/vite-project/compare/v1.0.4-alpha1...v1.0.5-alpha1) (2024-03-30)
+
+
+### Bug Fixes
+
+* try--update semanticc version ([cb5dc06](https://github.com/daudzubaidi/vite-project/commit/cb5dc060d8e09ffe14fa0666f567eb6e757d1004))
+* try--update semanticc version ([a4c198e](https://github.com/daudzubaidi/vite-project/commit/a4c198e9771e21480f8321e252f9bde152a983f6))
+* try--update semanticc version ([e7c0df4](https://github.com/daudzubaidi/vite-project/commit/e7c0df434fb518d7f5613249509eb192bde574a3))
+* try--update version strategy ([e6641b4](https://github.com/daudzubaidi/vite-project/commit/e6641b4649129da046c15232b6885744af48d51b))
+
 ## [1.0.4-alpha1](https://github.com/daudzubaidi/vite-project/compare/v1.0.3-alpha1...v1.0.4-alpha1) (2024-03-30)
 
 
