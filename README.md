@@ -1,1 +1,1 @@
-update readme for beta
+update direct main
