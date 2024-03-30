@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1-alpha1](https://github.com/daudzubaidi/vite-project/compare/v1.0.0-alpha1...v1.0.1-alpha1) (2024-03-30)
+
+
+### Bug Fixes
+
+* try-using release versioning strategy ([e663951](https://github.com/daudzubaidi/vite-project/commit/e6639516d08cd7c2df3d0f2970950cb7fbe1cfdc))
+
 ## [1.0.0-alpha1](https://github.com/daudzubaidi/vite-project/compare/v1.0.2-alpha1...v1.0.0-alpha1) (2024-03-30)
 
 
