@@ -1,9 +1,9 @@
-# .github/release-please.yml
 name: release-please
 on:
   push:
     branches:
       - main
+      - beta  # Assuming you have a beta branch for pre-releases
 
 permissions:
   contents: write
@@ -49,7 +49,6 @@ jobs:
       - name: Update package.json version
         run: |
           if [[ "$PR_TITLE" =~ .*release.* ]]; then
-            # Use extended regex (-E) to capture full semantic version including pre-release identifiers
             VERSION=$(echo "$PR_TITLE" | grep -oE '([0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)?)')
             if [ -z "$VERSION" ]; then
               echo "No version found in PR title, trying to extract from last commit for simple release type."
@@ -66,13 +65,3 @@ jobs:
           else
             echo "PR title does not indicate a release, skipping package.json update."
           fi
-      
-      - name: Commit and Push Changes
-        if: env.NEW_VERSION != ''
-        run: |
-          NEW_VERSION=${{ env.NEW_VERSION }}
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add package.json
-          git commit -m "chore: bump version to $NEW_VERSION"
-          git push origin ${{ env.PR_HEAD_BRANCH_NAME }}
