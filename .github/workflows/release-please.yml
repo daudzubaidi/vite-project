@@ -16,12 +16,26 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
 
-      - name: Install Release Please
-        run: npm install release-please
-
       - name: Run Release Please
-        run: npx release-please release-pr --release-type=simple --token=${{ secrets.GITHUB_TOKEN }} --repo-url=https://github.com/owner/repo --debug
-        
+        id: release
+        uses: google-github-actions/release-please-action@v4
+        with:
+          release-type: simple
+          changelog-types: >
+            [
+              { "type": "build", "section": "Build System", "hidden": false },
+              { "type": "ci", "section": "Continuous Integration", "hidden": false },
+              { "type": "chore", "section": "Miscellaneous Chores", "hidden": false },
+              { "type": "docs", "section": "Documentation", "hidden": false },
+              { "type": "feat", "section": "Features", "hidden": false },
+              { "type": "fix", "section": "Bug Fixes", "hidden": false },
+              { "type": "perf", "section": "Performance Improvements", "hidden": false },
+              { "type": "revert", "section": "Reverts", "hidden": false },
+              { "type": "refactor", "section": "Code Refactoring", "hidden": false },
+              { "type": "style", "section": "Styles", "hidden": false },
+              { "type": "test", "section": "Tests", "hidden": false }
+            ]
+
       - name: Get Data from PR Release Please
         id: get-pr-data
         run: |
@@ -35,28 +49,29 @@ jobs:
         with:
           ref: ${{ env.PR_HEAD_BRANCH_NAME }}
 
+      - name: Determine Release Type
+        id: release-type
+        run: |
+          LAST_COMMIT_MSG=$(git log -1 --pretty=%B)
+          if [[ "$LAST_COMMIT_MSG" =~ fix:\ release\ fix ]]; then
+            echo "RELEASE_TYPE=full" >> $GITHUB_ENV
+          else
+            echo "RELEASE_TYPE=pre" >> $GITHUB_ENV
+          fi
+  
       - name: Update package.json version
         run: |
-          if [[ "$PR_TITLE" =~ .*release.* ]]; then
-            VERSION=$(echo "$PR_TITLE" | grep -oP '(\d+\.\d+\.\d+)')
-            if [ -z "$VERSION" ]; then
-              echo "No version found in PR title, trying to extract from last commit for simple release type."
-              LAST_COMMIT_MSG=$(git log -1 --pretty=%B)
-              VERSION=$(echo "$LAST_COMMIT_MSG" | grep -oP '(\d+\.\d+\.\d+)')
-            fi
-            if [ ! -z "$VERSION" ]; then
-              MAJOR_MINOR_VERSION="${VERSION%.*}"
-              PATCH_VERSION="${VERSION##*.}"
-              if [[ "$LAST_COMMIT_MSG" =~ .*release.* ]]; then
-                NEW_PATCH_VERSION=$(($PATCH_VERSION+1))
-                NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
-              else
-                NEW_PATCH_VERSION=$(($PATCH_VERSION))
-                NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION-1"
-              fi
-              jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
-              echo "Updated package.json to version $NEW_VERSION."
-              echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          # Assuming RELEASE_TYPE and VERSION have been determined correctly
+          if [ "$RELEASE_TYPE" == "pre" ]; then
+            # Logic for pre-release versioning
+            NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION-1"
+          else
+            # Logic for full release versioning
+            NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
+          fi
+            jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
+            echo "Updated package.json to version $NEW_VERSION."
+            echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
             else
               echo "No version found in PR title or last commit, skipping package.json update."
             fi
