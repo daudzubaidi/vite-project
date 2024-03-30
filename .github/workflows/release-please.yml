@@ -22,11 +22,10 @@ jobs:
         with:
           release-type: node
           versioning-strategy: prerelease
-          # If using specific branches for pre-releases, configure them here
           branches:
             - pattern: main
             - pattern: beta
-              prerelease: true  # Mark releases from this branch as pre-releases
+              prerelease: true
 
       - name: Get Data from PR Release Please
         id: get-pr-data
