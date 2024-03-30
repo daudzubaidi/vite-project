@@ -1,26 +1,32 @@
-I got log
-0s
-Run echo "Current branch is refs/heads/main"
-  echo "Current branch is refs/heads/main"
-  if [[ "refs/heads/main" == "refs/heads/beta" ]]; then
-    echo "IS_PRERELEASE=true" >> $GITHUB_ENV
-    echo "VERSIONING_STRATEGY=prerelease" >> $GITHUB_ENV
-  else
-    echo "IS_PRERELEASE=false" >> $GITHUB_ENV
-    echo "VERSIONING_STRATEGY=default" >> $GITHUB_ENV
-  fi
-  shell: /usr/bin/bash -e {0}
-Current branch is refs/heads/main
-0s
+
+
+I push direct to main branch and I still got 
+
+github action log:
 Run echo "IS_PRERELEASE value is $IS_PRERELEASE"
+  echo "IS_PRERELEASE value is $IS_PRERELEASE"
+  shell: /usr/bin/bash -e {0}
+  env:
+    IS_PRERELEASE: false
 IS_PRERELEASE value is false
 
-I got PR release
-chore(main): release 1.0.5-alpha1 #143
+auto PR TItle create
+chore(main): release 1.0.5-alpha1 #144
  Open
 github-actions wants to merge 1 commit into main from release-please--branches--main--components--vite-react-swc 
 
-  why If I push dircet to main branch, it create pre-release version. I want to create a release version when I push to main branch.
+and changes in package.json
+  "version": "1.0.5-alpha1",
 
-  or should I do with two jobs, one for main branch and one for beta branch?
-  give me solution for this, do describe to long just give me code to fix this issue.
+
+can we create .yml code dynamic
+do not add IS_PRERELEASE if its false, 
+ with:
+          release-type: node
+
+          add if its true
+          IS_PRERELEASE is true, 
+
+ with:
+          release-type: node
+          prerelease: ${{ env.IS_PRERELEASE == 'true' }}
