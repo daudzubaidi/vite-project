@@ -1,4 +1,5 @@
 name: release-please
+
 on:
   push:
     branches:
@@ -36,7 +37,7 @@ jobs:
         with:
           release-type: node
           versioning-strategy: ${{ env.VERSIONING_STRATEGY }}
-          prerelease: ${{ env.IS_PRERELEASE }}
+          prerelease: ${{ env.IS_PRERELEASE == 'true' }}
 
       - name: Get Data from PR Release Please
         id: get-pr-data
@@ -54,8 +55,8 @@ jobs:
       - name: Update package.json version
         run: |
           if [ -n "$PR_TITLE" ]; then  # Check if PR_TITLE is not empty
-            # Directly use PR_TITLE as the version
-            VERSION="$PR_TITLE"
+            # Extract version from PR_TITLE if needed or directly use PR_TITLE as the version
+            VERSION=$(echo "$PR_TITLE" | grep -oP 'v\d+\.\d+\.\d+(-\w+\d+)?')
             jq ".version=\"$VERSION\"" package.json > tmp.json && mv tmp.json package.json
             echo "Updated package.json to version $VERSION."
             echo "NEW_VERSION=$VERSION" >> $GITHUB_ENV
