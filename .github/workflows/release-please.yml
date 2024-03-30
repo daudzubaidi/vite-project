@@ -19,11 +19,16 @@ jobs:
       - name: Determine if Pre-release
         id: prerelease_check
         run: |
+          echo "github.ref=${{ github.ref }}"
+          echo "Expected ref=refs/heads/beta"
           if [[ "${{ github.ref }}" == "refs/heads/beta" ]]; then
             echo "IS_PRERELEASE=true" >> $GITHUB_ENV
+            echo "Branch is beta, setting IS_PRERELEASE=true"
           else
             echo "IS_PRERELEASE=false" >> $GITHUB_ENV
+            echo "Branch is not beta, setting IS_PRERELEASE=false"
           fi
+          echo "IS_PRERELEASE value is $IS_PRERELEASE"
 
       - name: Run Release Please
         id: release
