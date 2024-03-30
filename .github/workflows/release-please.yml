@@ -23,10 +23,8 @@ jobs:
           echo "Current branch is ${{ github.ref }}"
           if [[ "${{ github.ref }}" == "refs/heads/beta" ]]; then
             echo "IS_PRERELEASE=true" >> $GITHUB_ENV
-            echo "VERSIONING_STRATEGY=prerelease" >> $GITHUB_ENV
           else
             echo "IS_PRERELEASE=false" >> $GITHUB_ENV
-            echo "VERSIONING_STRATEGY=default" >> $GITHUB_ENV
           fi
 
       - name: Print IS_PRERELEASE value
@@ -37,7 +35,6 @@ jobs:
         uses: google-github-actions/release-please-action@v4
         with:
           release-type: node
-          versioning-strategy: ${{ env.VERSIONING_STRATEGY }}
           prerelease: ${{ env.IS_PRERELEASE == 'true' }}
 
       - name: Get Data from PR Release Please

@@ -1,68 +1,19 @@
-name: release-please
-
-on:
-  push:
-    branches:
-      - main
-      - beta  # Assuming you have a beta branch for pre-releases
-
-permissions:
-  contents: write
-  pull-requests: write
-
-jobs:
-  release-please:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v4
-
-      - name: Determine if Pre-release
-        id: prerelease_check
-        run: |
-          if [[ "${{ github.ref }}" == "refs/heads/beta" ]]; then
-            echo "IS_PRERELEASE=true" >> $GITHUB_ENV
-            echo "VERSIONING_STRATEGY=prerelease" >> $GITHUB_ENV
-          else
-            echo "IS_PRERELEASE=false" >> $GITHUB_ENV
-            echo "VERSIONING_STRATEGY=default" >> $GITHUB_ENV
-          fi
-
-      - name: Print IS_PRERELEASE value
-        run: echo "IS_PRERELEASE value is $IS_PRERELEASE"
-
-      - name: Run Release Please
-        id: release
-        uses: google-github-actions/release-please-action@v4
-        with:
-          release-type: node
-          versioning-strategy: ${{ env.VERSIONING_STRATEGY }}
-          prerelease: ${{ env.IS_PRERELEASE == 'true' }}
-
-      - name: Get Data from PR Release Please
-        id: get-pr-data
-        run: |
-          PR_TITLE=$(echo '${{ steps.release.outputs.pr }}' | jq -r '.title')
-          PR_HEAD_BRANCH_NAME=$(echo '${{ steps.release.outputs.pr }}' | jq -r '.headBranchName')
-          echo "PR_TITLE=$PR_TITLE" >> $GITHUB_ENV
-          echo "PR_HEAD_BRANCH_NAME=$PR_HEAD_BRANCH_NAME" >> $GITHUB_ENV
-
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ env.PR_HEAD_BRANCH_NAME }}
-
-      - name: Update package.json version
-        run: |
-          if [ -n "$PR_TITLE" ]; then  # Check if PR_TITLE is not empty
-            # Extract version from PR_TITLE if needed or directly use PR_TITLE as the version
-            VERSION=$(echo "$PR_TITLE" | grep -oP 'v\d+\.\d+\.\d+(-\w+\d+)?')
-            jq ".version=\"$VERSION\"" package.json > tmp.json && mv tmp.json package.json
-            echo "Updated package.json to version $VERSION."
-            echo "NEW_VERSION=$VERSION" >> $GITHUB_ENV
-          else
-            echo "PR title is empty, skipping package.json update."
-          fi
+I got log
+0s
+Run echo "Current branch is refs/heads/main"
+  echo "Current branch is refs/heads/main"
+  if [[ "refs/heads/main" == "refs/heads/beta" ]]; then
+    echo "IS_PRERELEASE=true" >> $GITHUB_ENV
+    echo "VERSIONING_STRATEGY=prerelease" >> $GITHUB_ENV
+  else
+    echo "IS_PRERELEASE=false" >> $GITHUB_ENV
+    echo "VERSIONING_STRATEGY=default" >> $GITHUB_ENV
+  fi
+  shell: /usr/bin/bash -e {0}
+Current branch is refs/heads/main
+0s
+Run echo "IS_PRERELEASE value is $IS_PRERELEASE"
+IS_PRERELEASE value is false
 
 I got PR release
 chore(main): release 1.0.5-alpha1 #143
@@ -70,3 +21,6 @@ chore(main): release 1.0.5-alpha1 #143
 github-actions wants to merge 1 commit into main from release-please--branches--main--components--vite-react-swc 
 
   why If I push dircet to main branch, it create pre-release version. I want to create a release version when I push to main branch.
+
+  or should I do with two jobs, one for main branch and one for beta branch?
+  give me solution for this, do describe to long just give me code to fix this issue.
