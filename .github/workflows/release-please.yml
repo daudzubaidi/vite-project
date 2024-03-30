@@ -16,25 +16,11 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
 
+      - name: Install Release Please
+        run: npm install release-please
+
       - name: Run Release Please
-        id: release
-        uses: google-github-actions/release-please-action@v4
-        with:
-          release-type: simple
-          changelog-types: >
-            [
-              { "type": "build", "section": "Build System", "hidden": false },
-              { "type": "ci", "section": "Continuous Integration", "hidden": false },
-              { "type": "chore", "section": "Miscellaneous Chores", "hidden": false },
-              { "type": "docs", "section": "Documentation", "hidden": false },
-              { "type": "feat", "section": "Features", "hidden": false },
-              { "type": "fix", "section": "Bug Fixes", "hidden": false },
-              { "type": "perf", "section": "Performance Improvements", "hidden": false },
-              { "type": "revert", "section": "Reverts", "hidden": false },
-              { "type": "refactor", "section": "Code Refactoring", "hidden": false },
-              { "type": "style", "section": "Styles", "hidden": false },
-              { "type": "test", "section": "Tests", "hidden": false }
-            ]
+        run: npx release-please release-pr --release-type=simple
 
       - name: Get Data from PR Release Please
         id: get-pr-data
@@ -61,8 +47,13 @@ jobs:
             if [ ! -z "$VERSION" ]; then
               MAJOR_MINOR_VERSION="${VERSION%.*}"
               PATCH_VERSION="${VERSION##*.}"
-              NEW_PATCH_VERSION=$(($PATCH_VERSION))
-              NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
+              if [[ "$LAST_COMMIT_MSG" =~ .*release.* ]]; then
+                NEW_PATCH_VERSION=$(($PATCH_VERSION+1))
+                NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
+              else
+                NEW_PATCH_VERSION=$(($PATCH_VERSION))
+                NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION-1"
+              fi
               jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
               echo "Updated package.json to version $NEW_VERSION."
               echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
