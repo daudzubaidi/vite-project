@@ -21,7 +21,12 @@ jobs:
         uses: google-github-actions/release-please-action@v4
         with:
           release-type: node
-          prerelease: true
+          versioning-strategy: prerelease
+          # If using specific branches for pre-releases, configure them here
+          branches:
+            - pattern: main
+            - pattern: beta
+              prerelease: true  # Mark releases from this branch as pre-releases
 
       - name: Get Data from PR Release Please
         id: get-pr-data
