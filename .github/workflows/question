@@ -1,3 +1,4 @@
+My github action code for release:
 name: release-please
 on:
   push:
@@ -19,12 +20,14 @@ jobs:
       - name: Determine if Pre-release
         id: prerelease_check
         run: |
+          echo "github.ref=${{ github.ref }}"
+          echo "Expected ref=refs/heads/beta"
           if [[ "${{ github.ref }}" == "refs/heads/beta" ]]; then
             echo "IS_PRERELEASE=true" >> $GITHUB_ENV
-            echo "VERSIONING_STRATEGY=prerelease" >> $GITHUB_ENV
+            echo "Branch is beta, setting IS_PRERELEASE=true"
           else
             echo "IS_PRERELEASE=false" >> $GITHUB_ENV
-            echo "VERSIONING_STRATEGY=default" >> $GITHUB_ENV
+            echo "Branch is not beta, setting IS_PRERELEASE=false"
           fi
 
       - name: Print IS_PRERELEASE value
@@ -35,7 +38,7 @@ jobs:
         uses: google-github-actions/release-please-action@v4
         with:
           release-type: node
-          versioning-strategy: ${{ env.VERSIONING_STRATEGY }}
+          versioning-strategy: prerelease
           prerelease: ${{ env.IS_PRERELEASE }}
 
       - name: Get Data from PR Release Please
@@ -62,3 +65,7 @@ jobs:
           else
             echo "PR title is empty, skipping package.json update."
           fi
+
+I think something wrong with my release action code.
+first if I push to beta branch, the action will run and print IS_PRERELEASE value is true, but the release action will not run create pr.
+second if I push to main branch, the action will run and print IS_PRERELEASE value is false, but the release action create pr v1.0.2-alpha1 Latest (wich is pre-release version).
