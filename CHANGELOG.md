@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.6-alpha1](https://github.com/daudzubaidi/vite-project/compare/v1.0.5-alpha1...v1.0.6-alpha1) (2024-03-30)
+
+
+### Bug Fixes
+
+* try false ([b2764c1](https://github.com/daudzubaidi/vite-project/commit/b2764c1e35e2d6468e65ecc4a341bd8b00c1ec5d))
+* try false ([b75f0eb](https://github.com/daudzubaidi/vite-project/commit/b75f0eb9d536e5a06cd4c1e6913463282e42ff4d))
+
 ## [1.0.5-alpha1](https://github.com/daudzubaidi/vite-project/compare/v1.0.4-alpha1...v1.0.5-alpha1) (2024-03-30)
 
 
