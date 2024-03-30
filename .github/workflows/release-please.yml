@@ -35,7 +35,6 @@ jobs:
         uses: google-github-actions/release-please-action@v4
         with:
           release-type: node
-          prerelease: false
 
       - name: Get Data from PR Release Please
         id: get-pr-data
