@@ -20,6 +20,7 @@ jobs:
       - name: Determine if Pre-release
         id: prerelease_check
         run: |
+          echo "Current branch is ${{ github.ref }}"
           if [[ "${{ github.ref }}" == "refs/heads/beta" ]]; then
             echo "IS_PRERELEASE=true" >> $GITHUB_ENV
             echo "VERSIONING_STRATEGY=prerelease" >> $GITHUB_ENV

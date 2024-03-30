@@ -1,4 +1,5 @@
 name: release-please
+
 on:
   push:
     branches:
@@ -36,7 +37,7 @@ jobs:
         with:
           release-type: node
           versioning-strategy: ${{ env.VERSIONING_STRATEGY }}
-          prerelease: ${{ env.IS_PRERELEASE }}
+          prerelease: ${{ env.IS_PRERELEASE == 'true' }}
 
       - name: Get Data from PR Release Please
         id: get-pr-data
@@ -54,8 +55,8 @@ jobs:
       - name: Update package.json version
         run: |
           if [ -n "$PR_TITLE" ]; then  # Check if PR_TITLE is not empty
-            # Directly use PR_TITLE as the version
-            VERSION="$PR_TITLE"
+            # Extract version from PR_TITLE if needed or directly use PR_TITLE as the version
+            VERSION=$(echo "$PR_TITLE" | grep -oP 'v\d+\.\d+\.\d+(-\w+\d+)?')
             jq ".version=\"$VERSION\"" package.json > tmp.json && mv tmp.json package.json
             echo "Updated package.json to version $VERSION."
             echo "NEW_VERSION=$VERSION" >> $GITHUB_ENV
@@ -63,8 +64,9 @@ jobs:
             echo "PR title is empty, skipping package.json update."
           fi
 
-I think something wrong with my release action code.
-first if I push to beta branch, the action will run and print IS_PRERELEASE value is true, but the release action will not run create pre-release for update package.json version (I expect the version will be v1.0.2-alpha1 Latest)
-second if I push to main branch, the action will run and print IS_PRERELEASE value is false, but the release action create pr v1.0.2-alpha1 Latest (wich is pre-release version).
+I got PR release
+chore(main): release 1.0.5-alpha1 #143
+ Open
+github-actions wants to merge 1 commit into main from release-please--branches--main--components--vite-react-swc 
 
-just give me full code sulition for fix this problem
+  why If I push dircet to main branch, it create pre-release version. I want to create a release version when I push to main branch.
