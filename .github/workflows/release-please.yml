@@ -16,16 +16,22 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
 
+      - name: Determine if Pre-release
+        id: prerelease_check
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/beta" ]]; then
+            echo "IS_PRERELEASE=true" >> $GITHUB_ENV
+          else
+            echo "IS_PRERELEASE=false" >> $GITHUB_ENV
+          fi
+
       - name: Run Release Please
         id: release
         uses: google-github-actions/release-please-action@v4
         with:
           release-type: node
           versioning-strategy: prerelease
-          branches:
-            - pattern: main
-            - pattern: beta
-              prerelease: true
+          prerelease: ${{ env.IS_PRERELEASE }}
 
       - name: Get Data from PR Release Please
         id: get-pr-data
