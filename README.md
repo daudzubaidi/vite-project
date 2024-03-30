@@ -1,4 +1,1 @@
-update readme
-test update
-
-abisa alpha 1 apa?
+update readme for beta
