@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.0-beta1](https://github.com/daudzubaidi/vite-project/compare/v1.0.0-beta...v1.0.0-beta1) (2024-03-30)
+
+
+### Features
+
+* add new feature for next release ([068cbda](https://github.com/daudzubaidi/vite-project/commit/068cbda2877110d6e5202f8f097b1cf3f8f6eab2))
+
+
+### Bug Fixes
+
+* patch bug for beta release ([f8a8f2b](https://github.com/daudzubaidi/vite-project/commit/f8a8f2bf786a82d2fb2c9aff0fca722fc844d98a))
+
 ## [1.0.0-beta](https://github.com/daudzubaidi/vite-project/compare/v2.0.1...v1.0.0-beta) (2024-03-30)
 
 
