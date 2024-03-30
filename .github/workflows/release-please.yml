@@ -39,27 +39,24 @@ jobs:
       - name: Update package.json version
         run: |
           if [[ "$PR_TITLE" =~ .*release.* ]]; then
-            VERSION=$(echo "$PR_TITLE" | grep -oP '(\d+\.\d+\.\d+)')
+            # Use extended regex (-E) to capture full semantic version including pre-release identifiers
+            VERSION=$(echo "$PR_TITLE" | grep -oE '([0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)?)')
             if [ -z "$VERSION" ]; then
               echo "No version found in PR title, trying to extract from last commit for simple release type."
               LAST_COMMIT_MSG=$(git log -1 --pretty=%B)
-              VERSION=$(echo "$LAST_COMMIT_MSG" | grep -oP '(\d+\.\d+\.\d+)')
+              VERSION=$(echo "$LAST_COMMIT_MSG" | grep -oE '([0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)?)')
             fi
             if [ ! -z "$VERSION" ]; then
-              MAJOR_MINOR_VERSION="${VERSION%.*}"
-              PATCH_VERSION="${VERSION##*.}"
-              NEW_PATCH_VERSION=$(($PATCH_VERSION))
-              NEW_VERSION="$MAJOR_MINOR_VERSION.$NEW_PATCH_VERSION"
-              jq ".version=\"$NEW_VERSION\"" package.json > tmp.json && mv tmp.json package.json
-              echo "Updated package.json to version $NEW_VERSION."
-              echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+              jq ".version=\"$VERSION\"" package.json > tmp.json && mv tmp.json package.json
+              echo "Updated package.json to version $VERSION."
+              echo "NEW_VERSION=$VERSION" >> $GITHUB_ENV
             else
               echo "No version found in PR title or last commit, skipping package.json update."
             fi
           else
             echo "PR title does not indicate a release, skipping package.json update."
           fi
-
+      
       - name: Commit and Push Changes
         if: env.NEW_VERSION != ''
         run: |
