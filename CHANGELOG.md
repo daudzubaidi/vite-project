@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0-alpha1](https://github.com/daudzubaidi/vite-project/compare/v1.0.0-beta1...v1.0.0-alpha1) (2024-03-30)
+
+
+### Features
+
+* add new feature for next release ([7a86e55](https://github.com/daudzubaidi/vite-project/commit/7a86e55992dd7e53a262ee652f35f5572429a180))
+
 ## [1.0.0-beta1](https://github.com/daudzubaidi/vite-project/compare/v1.0.0-beta...v1.0.0-beta1) (2024-03-30)
 
 
