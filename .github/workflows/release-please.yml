@@ -20,7 +20,7 @@ jobs:
         run: npm install release-please
 
       - name: Run Release Please
-        run: npx release-please release-pr --release-type=simple
+        run: npx release-please release-pr --release-type=simple --token=${{ secrets.GITHUB_TOKEN }} --repo-url=https://github.com/owner/repo --prerelease-type=alpha
 
       - name: Get Data from PR Release Please
         id: get-pr-data
